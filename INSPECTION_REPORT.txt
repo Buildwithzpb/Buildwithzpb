@@ -1,0 +1,5 @@
+assets/js/geometry.js: FOUND (727 chars)
+assets/js/controller.js: FOUND (1780 chars)
+assets/js/liveController.js: FOUND (1360 chars)
+assets/js/materials.js: NOT FOUND
+index.html: FOUND (415 chars)

@@ -1,0 +1,1 @@
+Implemented production formulas for pipe, hex bar, HSS square/rectangle, angle, channel, I-beam.
