@@ -1,5 +1,3 @@
-## Build05 M6 Ultra
-- Expanded calculator utilities
-- Improved responsive layout
-- Added calculator status documentation
-- Added changelog
+# RC3.2 Build03
+- Added Material Weight Calculator page scaffold
+- Expanded tool database
