@@ -1,5 +1,18 @@
+import { toInches } from "./units.js";
 import { MATERIALS } from "../../data/materials.js";
 import { Geometry, calculateWeight } from "./geometry.js";
+
+
+
+const __bwzpbNormalize = (obj, unit) => {
+  const out={...obj};
+  for (const k of Object.keys(out)){
+    if (typeof out[k]==="number" && Number.isFinite(out[k])) {
+      out[k]=toInches(out[k], unit);
+    }
+  }
+  return out;
+};
 
 const SHAPES={
  plate:["length","width","thickness"],
@@ -44,13 +57,14 @@ document.addEventListener("DOMContentLoaded",()=>{
      }
      if(shape.value==="roundTube" && data.insideDiameter>=data.outsideDiameter)
        throw new Error("Inside diameter must be smaller than outside diameter");
-     const vol=volume(shape.value,data);
+     const normalized=__bwzpbNormalize(data, (typeof state!=='undefined'?state.units:undefined) || document.getElementById("units")?.value || "in");
+     const vol=volume(shape.value,normalized);
      const m=MATERIALS[mat.value];
      const res=calculateWeight({volume:vol,density:m.density,quantity:Number(qty.value||1)});
      out.textContent=`Material: ${m.name}
 Volume: ${vol.toFixed(3)} in³
-Weight/Piece: ${res.weightPerPiece.toFixed(3)} lb
-Total Weight: ${res.totalWeight.toFixed(3)} lb`;
+Weight/Piece: ${res.piece.toFixed(3)} lb
+Total Weight: ${res.total.toFixed(3)} lb`;
    }catch(e){out.textContent="Error: "+e.message;}
  };
 });
@@ -106,8 +120,8 @@ Material: ${material.name}
 ${dims}
 
 Volume: ${result.volume.toFixed(3)} in³
-Weight / Piece: ${result.weightPerPiece.toFixed(3)} lb
-Total Weight: ${result.totalWeight.toFixed(3)} lb`;
+Weight / Piece: ${result.piece.toFixed(3)} lb
+Total Weight: ${result.total.toFixed(3)} lb`;
 }
 
 
@@ -144,8 +158,8 @@ function buildSummary(shape,data,material,result){
     material:material.name,
     dimensions:{...data},
     volume:result.volume,
-    weightPerPiece:result.weightPerPiece,
-    totalWeight:result.totalWeight
+    piece:result.piece,
+    total:result.total
   };
 }
 
@@ -265,8 +279,8 @@ function createReport(shape,material,data,result){
     formatDimensionTable(data),
     "",
     `Volume: ${result.volume.toFixed(3)} in³`,
-    `Weight / Piece: ${result.weightPerPiece.toFixed(3)} lb`,
-    `Total Weight: ${result.totalWeight.toFixed(3)} lb`
+    `Weight / Piece: ${result.piece.toFixed(3)} lb`,
+    `Total Weight: ${result.total.toFixed(3)} lb`
   ].join("\n");
 }
 
@@ -318,4 +332,17 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 // PASS17: Reviewed for production consolidation.
 
-// PASS20: inspected and prepared for production verification.
+function normalizeDimensions(obj, unit){
+  const out={...obj};
+  for(const k of Object.keys(out)){
+    if(typeof out[k]==='number') out[k]=toInches(out[k],unit);
+  }
+  return out;
+}
+
+// Build5.1 UI wiring
+export function bindUnitSelector(select,state){
+ if(!select)return;
+ select.value=state.units||"in";
+ select.addEventListener("change",e=>{state.units=e.target.value;});
+}

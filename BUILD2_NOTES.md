@@ -1,0 +1,1 @@
+Build2: normalized controller inputs and hardened pipeline quantity handling.

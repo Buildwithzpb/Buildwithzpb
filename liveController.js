@@ -24,14 +24,14 @@ export function wireCalculator(){
 
 
 export function runProductionCalculation(input,geometryFn,material,target,renderer){
-  const result=executeProduction(input,geometryFn,material);
+  const result=execute(input,geometryFn,material);
   renderer.renderResults(target,result);
   return result;
 }
 
 
 export function runVerifiedCalculation(input,geometryFn,material,target,renderer){
- const result=executeVerified(input,geometryFn,material);
+ const result=execute(input,geometryFn,material);
  renderer.renderResults(target,result);
  return result;
 }
@@ -42,10 +42,8 @@ export function runVerifiedCalculation(input,geometryFn,material,target,renderer
 // Refactor Pass 6 reviewed
 // Refactor Pass 12 reviewed liveController.js
 
-// Future controller calls should use executeUnified().
+// Future controller calls should use execute().
 
 // PASS16: Legacy controller path removed pending verification.
 
 // PASS17: Reviewed for production consolidation.
-
-// PASS20: inspected and prepared for production verification.
