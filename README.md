@@ -1,2 +1,1 @@
-# Material Weight Calculator
-This tool is under active Build 05 development.
+Engineering validation harness for Build 5.1. Supply runCase() to execute imperial and metric cases and compare outputs.
